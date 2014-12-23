@@ -1,9 +1,11 @@
 {
   "name": "open-genealogy",
+  "description": "Simple browser-based genealogy research software",
   "version": "0.0.0",
   "main": "lib/server.js",
   "dependencies": {
     "body-parser": "^1.10.0",
+    "ember": "^1.0.0-pre.2",
     "express": "^4.10.6",
     "nedb": "^1.0.1"
   },
