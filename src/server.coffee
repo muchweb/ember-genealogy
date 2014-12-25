@@ -23,6 +23,6 @@ database.person.findOne
 	_id: "0"
 , (error, item) ->
 	throw error if error?
-	(new Person).FromDatabase item, (person) ->
+	((new Person).FromDatabase item).then (person) ->
 		(person.get 'names').forEach (item) ->
 			console.log item.get 'full'

@@ -1,7 +1,9 @@
 'use strict'
 
 require 'ember/runtime'
+require 'ember/rsvp'
 Nametype = require './Nametype.js'
+q = require 'q'
 
 module.exports = Ember.Object.extend
 
@@ -27,9 +29,12 @@ module.exports = Ember.Object.extend
 		@set 'title', data.title
 		@set 'given', data.given
 		@set 'surname', data.surname
-		database.nametype.findOne
-			_id: data.type
-		, (error, item) =>
-			throw error if error?
-			@set 'type', Nametype.create item
-			callback @
+		deferred = q.defer()
+		setImmediate =>
+			database.nametype.findOne
+				_id: data.type
+			, (error, item) =>
+				throw error if error?
+				@set 'type', Nametype.create item
+				deferred.resolve @
+		deferred.promise
