@@ -1,36 +1,28 @@
 'use strict'
 
-GLOBAL.window =
-	console: console
+GLOBAL.window = {}
+GLOBAL.window.console = console
 
 require 'ember/runtime'
 
-Person = require './Person.js'
-Name   = require './Name.js'
-
-p = Person.create
-	names: [
-		Name.create
-			title: 'Mr.'
-			given: 'foo'
-			surname: 'bar'
-	,
-		Name.create
-			given: 'bar'
-			surname: 'bar'
-	]
-
-(p.get 'names').forEach (name) ->
-	console.log name.get 'full'
-
-
 nedb = require 'nedb'
+Person = require './Person.js'
 
-database =
+GLOBAL.database =
 	nametype: new nedb
 		filename: 'data/nametype.json'
 		autoload: yes
+	name: new nedb
+		filename: 'data/name.json'
+		autoload: yes
+	person: new nedb
+		filename: 'data/person.json'
+		autoload: yes
 
-database.nametype.find {}, (error, items) ->
+database.person.findOne
+	_id: "0"
+, (error, item) ->
 	throw error if error?
-	console.log items
+	(new Person).FromDatabase item, (person) ->
+		(person.get 'names').forEach (item) ->
+			console.log item.get 'full'
