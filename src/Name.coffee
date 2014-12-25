@@ -18,9 +18,9 @@ module.exports = Ember.Object.extend
 			@get 'title'
 			@get 'given'
 			@get 'surname'
-			@get 'type.title'
+			if (@get 'type.title')? then "(#{@get 'type.title'})" else ''
 		].filter (item) ->
-			item isnt ''
+			item? and item isnt ''
 		.join ' '
 	).property 'title', 'given', 'surname', 'type.title'
 
@@ -31,6 +31,7 @@ module.exports = Ember.Object.extend
 		@set 'surname', data.surname
 		deferred = q.defer()
 		setImmediate =>
+			return deferred.resolve @ unless data.type?
 			database.nametype.findOne
 				_id: data.type
 			, (error, item) =>

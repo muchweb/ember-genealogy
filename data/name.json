@@ -1,2 +1,2 @@
-{"_id":"0","given":"foo","surname":"bar","type":"2"}
-{"_id":"1","given":"bar","surname":"bar","type":"3"}
+{"_id":"0","given":"foo","surname":"bar","type":"-1"}
+{"_id":"1","title":"Mr.","given":"bar","surname":"bar"}
