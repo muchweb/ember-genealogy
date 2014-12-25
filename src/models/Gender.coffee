@@ -1,6 +1,5 @@
 'use strict'
 
-module.exports = Ember.Object.extend
+module.exports = DS.Model.extend
 
-	id: ''
-	title: ''
+	title: DS.attr 'string'

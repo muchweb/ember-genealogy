@@ -1,13 +1,14 @@
 'use strict'
 
-module.exports = Ember.Object.extend
+module.exports = DS.Model.extend
 
-	id: ''
-	title: ''
-	given: ''
-	surname: ''
-	type: '-1'
-	origin: '-1'
+	title: DS.attr 'string'
+	given: DS.attr 'string'
+	surname: DS.attr 'string'
+	type:  DS.belongsTo 'nametype',
+		async: true
+	origin:  DS.belongsTo 'nameorigin',
+		async: true
 
 	full: (->
 		[

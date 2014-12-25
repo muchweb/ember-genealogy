@@ -4,11 +4,18 @@ global.window = {}
 global.window.console = console
 require 'ember/runtime'
 
-global.q  = require 'q'
-nedb      = require 'nedb'
-path      = require 'path'
+global.DS =
+	Model: Ember.Object.extend
+		id: ''
+	attr: (type) -> type
+	belongsTo: -> '-1'
+	hasMany: -> ['-1']
+
+global.q   = require 'q'
+nedb       = require 'nedb'
+path       = require 'path'
 bodyparser = require 'body-parser'
-express   = require 'express'
+express    = require 'express'
 
 global.Person     = require './models/Person.js'
 global.Name       = require './models/Name.js'

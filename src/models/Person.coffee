@@ -1,10 +1,12 @@
 'use strict'
 
-module.exports = Ember.Object.extend
+module.exports = DS.Model.extend
 
-	names: []
-	name: null
-	gender: '2'
+	names: DS.hasMany 'name',
+		async: true
+	name: DS.belongsTo 'name',
+		async: true
+	gender: DS.attr 'string'
 
 	display: (->
 		[

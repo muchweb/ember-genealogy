@@ -7,6 +7,7 @@
   "dependencies": {
     "body-parser": "^1.10.0",
     "ember": "^1.0.0-pre.2",
+    "ember-data": "^1.0.0-beta.12",
     "express": "^4.10.6",
     "nedb": "^1.0.1"
   },
