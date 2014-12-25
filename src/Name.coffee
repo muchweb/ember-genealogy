@@ -12,8 +12,8 @@ module.exports = Ember.Object.extend
 	title: ''
 	given: ''
 	surname: ''
-	type: null
-	origin: null
+	type: '-1'
+	origin: '-1'
 
 	full: (->
 		[
@@ -23,17 +23,12 @@ module.exports = Ember.Object.extend
 			if (@get 'type.title')? then "(#{@get 'type.title'})" else ''
 			if (@get 'origin.title')? then "(#{@get 'origin.title'})" else ''
 		].filter (item) ->
-			item? and item isnt ''
+			item? and item isnt '' and item.toLowerCase() isnt '(unknown)'
 		.join ' '
 	).property 'title', 'given', 'surname', 'type.title', 'origin.title'
 
-	FromDatabase: (data, callback) ->
-		@set 'id', data.id
-		@set 'title', data.title
-		@set 'given', data.given
-		@set 'surname', data.surname
-		@set 'type', data.type
-		@set 'origin', data.origin
+	FromDatabase: (options={}) ->
+		@set key, value for key, value of options
 
 		deferred = q.defer()
 		setImmediate =>

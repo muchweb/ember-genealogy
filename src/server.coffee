@@ -21,11 +21,14 @@ GLOBAL.database =
 	person: new nedb
 		filename: 'data/person.json'
 		autoload: yes
+	gender: new nedb
+		filename: 'data/gender.json'
+		autoload: yes
 
-database.person.findOne
-	_id: "0"
-, (error, item) ->
+database.person.find {}, (error, items) ->
 	throw error if error?
-	((new Person).FromDatabase item).then (person) ->
-		(person.get 'names').forEach (item) ->
-			console.log item.get 'full'
+	for item in items
+		((new Person).FromDatabase item).then (person) ->
+			console.log "== #{person.get 'display'} =="
+			(person.get 'names').forEach (item) ->
+				console.log " - #{item.get 'full'}"

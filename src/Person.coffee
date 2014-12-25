@@ -5,17 +5,46 @@ require 'ember/rsvp'
 q = require 'q'
 
 Name = require './Name.js'
+Gender = require './Gender.js'
 
 module.exports = Ember.Object.extend
 
 	names: []
+	name: null
+	gender: '2'
 
-	FromDatabase: (data) ->
+	display: (->
+		[
+			@get 'name.full'
+			switch @get 'gender.title'
+				when 'MALE'   then '♂'
+				when 'FEMALE' then '♀'
+				else @get 'gender.title'
+		].filter (item) ->
+			item? and item.toLowerCase() isnt 'unknown'
+		.join ' '
+	).property 'name.full', 'gender.title'
+
+	FromDatabase: (options={}) ->
+		@set key, value for key, value of options
+
+		deferred = q.defer()
+		setImmediate =>
+			(q.all [
+				@SetName @get 'name'
+				@SetNames @get 'names'
+				@SetGender @get 'gender'
+			]).then =>
+				deferred.resolve @
+		deferred.promise
+
+	SetNames: (ids) ->
 		deferred = q.defer()
 		setImmediate =>
 
+			@set 'names', []
 			database.name.find
-				$or: data.names.map (id) ->
+				$or: ids.map (id) ->
 					_id: id
 			, (error, items) =>
 				return deferred.reject error if error?
@@ -26,8 +55,30 @@ module.exports = Ember.Object.extend
 							@names.push name
 							inner.resolve()
 					inner.promise
-				).then =>
-					console.log 'sasa'
-					deferred.resolve @
+				).then => deferred.resolve @
 
+		deferred.promise
+
+	SetName: (id) ->
+		deferred = q.defer()
+		setImmediate =>
+			return deferred.resolve @ unless id?
+			database.name.findOne
+				_id: id
+			, (error, item) =>
+				return deferred.reject error if error?
+				@set 'name', Name.create item
+				deferred.resolve @
+		deferred.promise
+
+	SetGender: (id) ->
+		deferred = q.defer()
+		setImmediate =>
+			return deferred.resolve @ unless id?
+			database.gender.findOne
+				_id: id
+			, (error, item) =>
+				return deferred.reject error if error?
+				@set 'gender', Gender.create item
+				deferred.resolve @
 		deferred.promise
