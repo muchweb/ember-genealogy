@@ -4,8 +4,11 @@ global.window = {}
 global.window.console = console
 require 'ember/runtime'
 
-global.q = require 'q'
-nedb     = require 'nedb'
+global.q  = require 'q'
+nedb      = require 'nedb'
+path      = require 'path'
+bodyparser = require 'body-parser'
+express   = require 'express'
 
 global.Person     = require './models/Person.js'
 global.Name       = require './models/Name.js'
@@ -37,3 +40,9 @@ database.person.find {}, (error, items) ->
 			console.log "== #{person.get 'display'} =="
 			(person.get 'names').forEach (item) ->
 				console.log " - #{item.get 'full'}"
+
+express()
+	.use express.static path.normalize "#{__dirname}/.."
+	.listen 8000
+
+console.log 'Running on localhost:8000...'

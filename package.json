@@ -3,6 +3,7 @@
   "description": "Simple browser-based genealogy research software",
   "version": "0.0.0",
   "main": "lib/server.js",
+  "license": "GPLv3+",
   "dependencies": {
     "body-parser": "^1.10.0",
     "ember": "^1.0.0-pre.2",
