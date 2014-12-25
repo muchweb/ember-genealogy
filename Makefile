@@ -1,10 +1,12 @@
-LIB= lib/server.js lib/server.js.map lib/Person.js lib/Person.js.map lib/Name.js lib/Name.js.map lib/Nametype.js lib/Nametype.js.map
-SRC= src/server.coffee src/Person.coffee src/Name.coffee src/Nametype.coffee
+SOURCES := src/server.coffee $(wildcard src/models/*.coffee)
+LIBS1   := $(SOURCES:.coffee=.js)
+LIBS    := $(subst src,lib,$(LIBS1))
+COFFEE  := ./node_modules/.bin/coffee
 
-all: $(LIB)
+all: $(LIBS)
 
-$(LIB): ./node_modules/.bin/coffee $(SRC)
-	./node_modules/.bin/coffee --map --compile --output lib src
+$(LIBS): $(COFFEE) $(SOURCES)
+	$(COFFEE) --map --compile --output lib src
 
-./node_modules/.bin/coffee:
+$(COFFEE):
 	npm install

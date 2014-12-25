@@ -1,12 +1,5 @@
 'use strict'
 
-require 'ember/runtime'
-require 'ember/rsvp'
-q = require 'q'
-
-Name = require './Name.js'
-Gender = require './Gender.js'
-
 module.exports = Ember.Object.extend
 
 	names: []

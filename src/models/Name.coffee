@@ -1,11 +1,5 @@
 'use strict'
 
-require 'ember/runtime'
-require 'ember/rsvp'
-Nametype = require './Nametype.js'
-Nameorigin = require './Nameorigin.js'
-q = require 'q'
-
 module.exports = Ember.Object.extend
 
 	id: ''

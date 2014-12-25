@@ -1,14 +1,19 @@
 'use strict'
 
-GLOBAL.window = {}
-GLOBAL.window.console = console
-
+global.window = {}
+global.window.console = console
 require 'ember/runtime'
 
-nedb = require 'nedb'
-Person = require './Person.js'
+global.q = require 'q'
+nedb     = require 'nedb'
 
-GLOBAL.database =
+global.Person     = require './models/Person.js'
+global.Name       = require './models/Name.js'
+global.Gender     = require './models/Gender.js'
+global.Nametype   = require './models/Nametype.js'
+global.Nameorigin = require './models/Nameorigin.js'
+
+global.database =
 	nametype: new nedb
 		filename: 'data/nametype.json'
 		autoload: yes
