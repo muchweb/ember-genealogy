@@ -1,5 +1,5 @@
-LIB=lib/server.js lib/server.js.map lib/Person.js lib/Person.js.map
-SRC=src/server.coffee src/Person.coffee
+LIB= lib/server.js lib/server.js.map lib/Person.js lib/Person.js.map lib/Name.js lib/Name.js.map lib/Nametype.js lib/Nametype.js.map
+SRC= src/server.coffee src/Person.coffee src/Name.coffee src/Nametype.coffee
 
 all: $(LIB)
 
