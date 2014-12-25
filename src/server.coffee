@@ -11,13 +11,26 @@ Name   = require './Name.js'
 p = Person.create
 	names: [
 		Name.create
-			first: 'foo'
-			last: 'foo'
+			title: 'Mr.'
+			given: 'foo'
+			surname: 'bar'
 	,
 		Name.create
-			first: 'bar'
-			last: 'bar'
+			given: 'bar'
+			surname: 'bar'
 	]
 
 (p.get 'names').forEach (name) ->
 	console.log name.get 'full'
+
+
+nedb = require 'nedb'
+
+database =
+	nametype: new nedb
+		filename: 'data/nametype.json'
+		autoload: yes
+
+database.nametype.find {}, (error, items) ->
+	throw error if error?
+	console.log items

@@ -4,11 +4,18 @@ require 'ember/runtime'
 
 module.exports = Ember.Object.extend
 
-	first: ''
-	last: ''
+	id: ''
+	title: ''
+	given: ''
+	surname: ''
+	type: ''
 
 	full: (->
-		first = @get 'first'
-		last = @get 'last'
-		"#{first} #{last}"
-	).property 'first', 'last'
+		names = [
+			@get 'title'
+			@get 'given'
+			@get 'surname'
+		].filter (item) ->
+			item isnt ''
+		.join ' '
+	).property 'title', 'given', 'surname'
