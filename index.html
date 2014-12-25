@@ -6,12 +6,23 @@
 	<body role="document">
 
 		<script type="text/x-handlebars">
-			Success
+			{{#link-to 'index'}}Home{{/link-to}}
+			{{#link-to 'about'}}About{{/link-to}}
+			{{outlet}}
+		</script>
+
+		<script type="text/x-handlebars" id="index">
+			Index
+		</script>
+
+		<script type="text/x-handlebars" id="about">
+			About
 		</script>
 
 		<script src="lib/jquery.js"></script>
 		<script src="lib/handlebars.js"></script>
 		<script src="lib/ember.js"></script>
+		<script src="lib/ember-data.js"></script>
 		<script src="lib/client.js"></script>
 	</body>
 </html>
