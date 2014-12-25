@@ -23,7 +23,7 @@ module.exports = Ember.Object.extend
 			if (@get 'type.title')? then "(#{@get 'type.title'})" else ''
 			if (@get 'origin.title')? then "(#{@get 'origin.title'})" else ''
 		].filter (item) ->
-			item isnt ''
+			item? and item isnt ''
 		.join ' '
 	).property 'title', 'given', 'surname', 'type.title', 'origin.title'
 
