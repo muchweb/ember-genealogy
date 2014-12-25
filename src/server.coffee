@@ -15,6 +15,9 @@ GLOBAL.database =
 	name: new nedb
 		filename: 'data/name.json'
 		autoload: yes
+	nameorigin: new nedb
+		filename: 'data/nameorigin.json'
+		autoload: yes
 	person: new nedb
 		filename: 'data/person.json'
 		autoload: yes

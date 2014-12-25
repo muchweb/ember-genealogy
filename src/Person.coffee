@@ -18,6 +18,7 @@ module.exports = Ember.Object.extend
 				$or: data.names.map (id) ->
 					_id: id
 			, (error, items) =>
+				return deferred.reject error if error?
 				(q.all items.map (item) =>
 					inner = q.defer()
 					setImmediate =>
@@ -26,6 +27,7 @@ module.exports = Ember.Object.extend
 							inner.resolve()
 					inner.promise
 				).then =>
+					console.log 'sasa'
 					deferred.resolve @
 
 		deferred.promise
