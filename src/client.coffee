@@ -14,3 +14,14 @@ window.App.Router.map ->
 window.App.PeopleRoute = window.Ember.Route.extend
 	model: ->
 		@store.find 'person'
+
+	setupController: (controller, model) ->
+		controller.set 'model', model
+
+window.App.PeopleController = window.Ember.ArrayController.extend
+
+	drink: 'tea'
+
+	actions:
+		Beep: ->
+			alert 'hi'

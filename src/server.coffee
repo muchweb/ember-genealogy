@@ -63,6 +63,31 @@ express()
 			).then (people) ->
 				res.send
 					people: people
+
+	.get '/names/:id', (req, res) ->
+		database.person.findOne
+			_id: req.params.id
+		, (error, item) ->
+			throw error if error?
+
+			((new Name).FromDatabase item).then (name) ->
+				res.send
+					name:
+						id: name.get '_id'
+						title: name.get 'title'
+						given: name.get 'given'
+						surname: name.get 'surname'
+						type: name.get 'type.id'
+
+	.get '/genders/:id', (req, res) ->
+		database.gender.findOne
+			_id: req.params.id
+		, (error, item) ->
+			throw error if error?
+			res.send
+				gender:
+					id: item._id
+					title: item.title
 	.listen 8000
 
 console.log 'Running on localhost:8000...'
