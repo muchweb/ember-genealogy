@@ -1,7 +1,7 @@
 {
   "name": "open-genealogy",
   "description": "Simple browser-based genealogy research software",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "main": "lib/server.js",
   "license": "GPLv3+",
   "dependencies": {
