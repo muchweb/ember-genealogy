@@ -1,5 +1,5 @@
 'use strict'
 
-module.exports = DS.Model.extend
+module.exports = window.App.Nameorigin = DS.Model.extend
 
 	title: DS.attr 'string'

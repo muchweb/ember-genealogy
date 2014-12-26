@@ -1,6 +1,6 @@
 'use strict'
 
-module.exports = DS.Model.extend
+module.exports = window.App.Name = DS.Model.extend
 
 	title: DS.attr 'string'
 	given: DS.attr 'string'
@@ -21,6 +21,17 @@ module.exports = DS.Model.extend
 			item? and item isnt '' and item.toLowerCase() isnt '(unknown)'
 		.join ' '
 	).property 'title', 'given', 'surname', 'type.title', 'origin.title'
+
+	ToSimple: (options={}) ->
+		@set key, value for key, value of options
+
+		deferred = q.defer()
+		setImmediate =>
+			(q.all [
+				@SetType @get 'type'
+				@SetOrigin @get 'origin'
+			]).then => deferred.resolve @
+		deferred.promise
 
 	FromDatabase: (options={}) ->
 		@set key, value for key, value of options

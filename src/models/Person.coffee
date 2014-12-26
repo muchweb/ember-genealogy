@@ -1,12 +1,15 @@
 'use strict'
 
-module.exports = DS.Model.extend
+module.exports = window.App.Person = DS.Model.extend
 
 	names: DS.hasMany 'name',
 		async: true
+
 	name: DS.belongsTo 'name',
 		async: true
-	gender: DS.attr 'string'
+
+	gender: DS.belongsTo 'gender',
+		async: true
 
 	display: (->
 		[

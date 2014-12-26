@@ -1,7 +1,9 @@
 'use strict'
 
-global.window = {}
-global.window.console = console
+global.window =
+	console: console
+	App: {}
+
 require 'ember/runtime'
 
 global.DS =
@@ -40,16 +42,27 @@ global.database =
 		filename: 'data/gender.json'
 		autoload: yes
 
-database.person.find {}, (error, items) ->
-	throw error if error?
-	for item in items
-		((new Person).FromDatabase item).then (person) ->
-			console.log "== #{person.get 'display'} =="
-			(person.get 'names').forEach (item) ->
-				console.log " - #{item.get 'full'}"
-
 express()
 	.use express.static path.normalize "#{__dirname}/.."
+	.get '/people', (req, res) ->
+		database.person.find {}, (error, items) ->
+			throw error if error?
+
+			(q.all items.map (item) ->
+				deferred = q.defer()
+				setImmediate =>
+					console.log 'item',  item
+					((new Person).FromDatabase item).then (person) ->
+						deferred.resolve
+							id: person.get '_id'
+							gender: person.get 'gender._id'
+							name: person.get 'name._id'
+							names: (person.get 'names').map (name) ->
+								name.get '_id'
+				deferred.promise
+			).then (people) ->
+				res.send
+					people: people
 	.listen 8000
 
 console.log 'Running on localhost:8000...'

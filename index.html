@@ -8,6 +8,7 @@
 		<script type="text/x-handlebars">
 			{{#link-to 'index'}}Home{{/link-to}}
 			{{#link-to 'about'}}About{{/link-to}}
+			{{#link-to 'people'}}People{{/link-to}}
 			{{outlet}}
 		</script>
 
@@ -19,19 +20,30 @@
 			About
 		</script>
 
+		<script type="text/x-handlebars" id="people">
+			people:
+			{{#each person in model}}
+				{{person.id}}<br />
+			{{/each}}
+		</script>
+
 		<script src="lib/jquery.js"></script>
 		<script src="lib/handlebars.js"></script>
 		<script src="lib/ember.js"></script>
 		<script src="lib/ember-data.js"></script>
 
-		<script src="lib/models.js"></script>
-
-		<script src="lib/Gender.js"></script>
-		<script src="lib/Name.js"></script>
-		<script src="lib/Nameorigin.js"></script>
-		<script src="lib/Nametype.js"></script>
-		<script src="lib/Person.js"></script>
+		<script charset="utf-8">
+			var module = {
+				exports: {},
+			};
+		</script>
 
 		<script src="lib/client.js"></script>
+		<script src="lib/models/Gender.js"></script>
+		<script src="lib/models/Name.js"></script>
+		<script src="lib/models/Nameorigin.js"></script>
+		<script src="lib/models/Nametype.js"></script>
+		<script src="lib/models/Person.js"></script>
+
 	</body>
 </html>
