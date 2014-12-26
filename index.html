@@ -4,24 +4,45 @@
 		<meta charset="utf-8">
 	</head>
 	<style media="screen">
+		:focus {outline:none;}
+		::-moz-focus-inner {border:0;}
 		body {
 			width: 800px;
 			margin: 10px auto;
 		}
 		header {
 			background: #e5e5e5;
+			overflow: hidden;
 		}
 		header > a {
 			display: inline-block;
 			padding: 10px;
+			text-decoration: none;
+			color: black;
 		}
 		header > a.active {
 			background: #f2f2f2;
+			box-shadow: 0px 64px 48px #000
+		}
+		header > a.other {
+			float: right;
 		}
 		#content {
 			padding: 10px;
 			min-height: 300px;
 			background: #f2f2f2;
+		}
+		#content fieldset {
+			border: 1px solid rgba(0, 0, 0, 0.2);
+		}
+		#content table {
+			width: 100%;
+		}
+		#content table > tbody > tr> td,
+		#content table > thead > tr> th {
+			border: 1px solid rgba(0, 0, 0, 0.2);
+			padding: 1px 2px;
+			text-align: center;
 		}
 		footer {
 			background: #e5e5e5;
@@ -33,9 +54,10 @@
 
 		<script type="text/x-handlebars">
 			<header>
-				{{#link-to 'index'}}Home{{/link-to}}
-				{{#link-to 'about'}}About{{/link-to}}
-				{{#link-to 'people'}}People{{/link-to}}
+				{{#link-to 'index'}}Home{{/link-to}}{{!--
+				--}}{{#link-to 'about'}}About{{/link-to}}{{!--
+				--}}{{#link-to 'genders' class="other"}}Genders{{/link-to}}{{!--
+				--}}{{#link-to 'people'}}People{{/link-to}}
 			</header>
 			<div id="content">{{outlet}}</div>
 			<footer>open-genealogy</footer>
@@ -49,23 +71,85 @@
 			open-genealogy
 		</script>
 
+		<script type="text/x-handlebars" id="genders">
+			<table>
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Title</th>
+					</tr>
+				</thead>
+				<tbody>
+					{{#each gender in model}}
+						<tr>
+							<td>{{gender.id}}</td>
+							<td>{{gender.title}}</td>
+						</tr>
+					{{/each}}
+				</tbody>
+			</table>
+		</script>
+
 		<script type="text/x-handlebars" id="people">
 			<table>
 				<thead>
 					<tr>
 						<th>ID</th>
 						<th>Name</th>
+						<th>Name origin</th>
+						<th>Gender</th>
 					</tr>
 				</thead>
 				<tbody>
 					{{#each person in model}}
 						<tr>
 							<td>{{person.id}}</td>
+							<td>{{#link-to 'person' person}}{{person.name.full}}{{/link-to}}</td>
+							<td>{{person.name.origin.title}}</td>
 							<td>{{person.gender.title}}</td>
 						</tr>
 					{{/each}}
 				</tbody>
 			</table>
+		</script>
+
+		<script type="text/x-handlebars" id="person">
+			<form {{action "save" on="submit"}}>
+				<fieldset>
+					<legend>{{person.display}}</legend>
+					<fieldset>
+						<legend>Personalia:</legend>
+						<td>{{gender.title}}</td>
+						{{view "select" content=genders optionValuePath="content.id" optionLabelPath="content.title" value="person.gender.id"}}
+					</fieldset>
+					<fieldset>
+						<legend>Names:</legend>
+						<table>
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>Given</th>
+									<th>Surname</th>
+								</tr>
+							</thead>
+							<tbody>
+								{{#each name in person.names}}
+									<tr>
+										<td>{{name.id}}</td>
+										<td>{{name.given}}</td>
+										<td>{{name.surname}}</td>
+									</tr>
+								{{/each}}
+							</tbody>
+						</table>
+					</fieldset>
+				</fieldset>
+				{{#if isDirty}}
+					<button type="submit">Save</button>
+				{{else}}
+					<button type="submit" disabled="disabled">Save</button>
+				{{/if}}
+			</form>
 		</script>
 
 		<script src="lib/jquery.js"></script>

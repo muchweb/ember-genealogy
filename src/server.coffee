@@ -64,8 +64,22 @@ express()
 				res.send
 					people: people
 
-	.get '/names/:id', (req, res) ->
+	.get '/people/:id', (req, res) ->
 		database.person.findOne
+			_id: req.params.id
+		, (error, item) ->
+			throw error if error?
+			((new Person).FromDatabase item).then (person) ->
+				res.send
+					person:
+						id: person.get '_id'
+						gender: person.get 'gender._id'
+						name: person.get 'name._id'
+						names: (person.get 'names').map (name) ->
+							name.get '_id'
+
+	.get '/names/:id', (req, res) ->
+		database.name.findOne
 			_id: req.params.id
 		, (error, item) ->
 			throw error if error?
@@ -77,7 +91,52 @@ express()
 						title: name.get 'title'
 						given: name.get 'given'
 						surname: name.get 'surname'
-						type: name.get 'type.id'
+						type: name.get 'type._id'
+						origin: name.get 'origin._id'
+
+	.get '/nametypes', (req, res) ->
+		database.nametype.find {}, (error, items) ->
+			throw error if error?
+			res.send
+				nametypes: items.map (item) ->
+					id: item._id
+					title: item.title
+
+	.get '/nametypes/:id', (req, res) ->
+		database.nametype.findOne
+			_id: req.params.id
+		, (error, item) ->
+			throw error if error?
+			res.send
+				nametype:
+					id: item._id
+					title: item.title
+
+	.get '/nameorigins', (req, res) ->
+		database.nameorigin.find {}, (error, items) ->
+			throw error if error?
+			res.send
+				nameorigins: items.map (item) ->
+					id: item._id
+					title: item.title
+
+	.get '/nameorigins/:id', (req, res) ->
+		database.nameorigin.findOne
+			_id: req.params.id
+		, (error, item) ->
+			throw error if error?
+			res.send
+				nameorigin:
+					id: item._id
+					title: item.title
+
+	.get '/genders', (req, res) ->
+		database.gender.find {}, (error, items) ->
+			throw error if error?
+			res.send
+				genders: items.map (item) ->
+					id: item._id
+					title: item.title
 
 	.get '/genders/:id', (req, res) ->
 		database.gender.findOne
