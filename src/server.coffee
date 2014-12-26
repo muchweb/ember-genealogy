@@ -51,7 +51,6 @@ express()
 			(q.all items.map (item) ->
 				deferred = q.defer()
 				setImmediate =>
-					console.log 'item',  item
 					((new Person).FromDatabase item).then (person) ->
 						deferred.resolve
 							id: person.get '_id'
@@ -149,4 +148,4 @@ express()
 					title: item.title
 	.listen 8000
 
-console.log 'Running on localhost:8000...'
+console.log 'Running on http://localhost:8000 …'
